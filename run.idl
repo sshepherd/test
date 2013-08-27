@@ -1,0 +1,7 @@
+.compile plot_2D_data
+
+files = 'data_'+['11MHz_15','11MHz_30','14MHz_15','14MHz_30']+'deg.txt'
+plot_2D_data, files
+
+exit
+

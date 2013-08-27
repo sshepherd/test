@@ -1,0 +1,74 @@
+.compile atan2
+.compile elevation
+.compile elev_goose
+.compile simulate_elev
+.compile elevation_ambiguity
+.compile plot_geometry
+
+;elevation_ambiguity
+;exit
+
+phi_obs = -.1*!pi
+tfreq   = 10000.  ; TX freq in kHz
+psname  = '10MHz_X.ps'
+beams   = [7,8,9,10,11,12,13,14,15,16]
+plot_geometry, psname=psname, tfreq=tfreq, phi_obs=phi_obs, beams=beams
+
+;exit
+
+psname  = '10MHz_Z+.ps'
+beams   = indgen(23)
+phi_obs = .9*!pi
+plot_geometry, psname=psname, tfreq=tfreq, /zparm, beams=beams, phi_obs=phi_obs
+
+psname  = '10MHz_Z-.ps'
+beams   = indgen(23)
+phi_obs = -.9*!pi
+plot_geometry, psname=psname, tfreq=tfreq, /zparm, beams=beams, phi_obs=phi_obs
+
+
+exit
+
+ioff    = [0., -80., 0]   ; CV offsets
+maxbeam = 24
+bmsep   = 3.24
+tfreq   = 10000.  ; TX freq in kHz
+phidiff = 1       ; phase sign
+;tdiff   = -0.351 ; in us
+tdiff   = 0.
+beams   = [12,17,23]     ; beam number
+beams   = [12,21]     ; beam number
+
+yr = [-20,0]
+psname  = 'cv_test_10MHz.ps'
+simulate_elev, psname=psname, ioff=ioff, maxbeam=maxbeam, bmsep=bmsep, $
+								tfreq=tfreq, beams=beams, yr=yr
+
+tfreq   = 15000.
+yr = [-30,0]
+psname  = 'cv_test_15MHz.ps'
+simulate_elev, psname=psname, ioff=ioff, maxbeam=maxbeam, bmsep=bmsep, $
+								tfreq=tfreq, beams=beams, yr=yr
+
+tfreq   = 10000.
+yr = [-20,0]
+beams = [21]
+psname  = 'cv_test_10MHz+Z.ps'
+ioff[2] = 20.
+simulate_elev, psname=psname, ioff=ioff, maxbeam=maxbeam, bmsep=bmsep, $
+								tfreq=tfreq, beams=beams, yr=yr
+
+psname  = 'cv_test_10MHz-Z.ps'
+ioff[2] = -10.
+simulate_elev, psname=psname, ioff=ioff, maxbeam=maxbeam, bmsep=bmsep, $
+								tfreq=tfreq, beams=beams, yr=yr
+
+yr = [-20,0]
+psname  = 'cv_test_10MHz+X.ps'
+ioff[2] = 0.
+ioff[0] = 10.
+simulate_elev, psname=psname, ioff=ioff, maxbeam=maxbeam, bmsep=bmsep, $
+								tfreq=tfreq, beams=beams, yr=yr
+exit
+
+
